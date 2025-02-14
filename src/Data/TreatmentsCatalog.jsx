@@ -17,7 +17,7 @@ import CePerfilado from './Cejas/CePerfilado';
 import CoDrenaje from './Corporales/CoDrenaje';
 import CoElectroestimulacion from './Corporales/CoElectroEstimulacion';
 import CoLipolaser from './Corporales/CoLipolaser';
-import CoLiposonix from './Corporales/Coliposonix';
+import CoLiposonix from './Corporales/CoLiposonix';
 import CoMasajesReductores from './Corporales/CoMasajesReductores';
 import CoPulidoCremas from './Corporales/CoPulidoCremas';
 import CoPulidoPuntaDiamante from './Corporales/CoPulidoPuntaDiamante';
