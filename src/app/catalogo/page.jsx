@@ -3,14 +3,13 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, MapPin, X, SlidersHorizontal } from 'lucide-react';
+import { Search, Filter, X, SlidersHorizontal } from 'lucide-react';
 import treatmentsCatalog from '../../Data/TreatmentsCatalog';
 import PromoButton from '../../Components/Button/PromoButton';
 
 const Catalogo = () => {
   const [filterCategory, setFilterCategory] = useState('');
   const [filterName, setFilterName] = useState('');
-  const [filterZone, setFilterZone] = useState('');
   const [showFilters, setShowFilters] = useState(false);
 
   // Obtener categorías únicas
@@ -21,29 +20,30 @@ const Catalogo = () => {
 
   const filteredTreatments = useMemo(() => {
     return treatmentsCatalog.filter((t) => {
+      // Normalizar strings removiendo espacios extras y convirtiendo a minúsculas
+      const normalizedName = t.nombre.toLowerCase().trim();
+      const normalizedSearch = filterName.toLowerCase().trim();
+      
       const matchCategory = !filterCategory ||
         t.categoria.toLowerCase() === filterCategory.toLowerCase();
       const matchName = !filterName ||
-        t.nombre.toLowerCase().includes(filterName.toLowerCase());
-      const matchZone = !filterZone ||
-        (t.zonas && t.zonas.some(zona =>
-          zona.nombre.toLowerCase().includes(filterZone.toLowerCase())
-        ));
+        normalizedName.includes(normalizedSearch);
 
-      return matchCategory && matchName && matchZone;
+      return matchCategory && matchName;
     });
-  }, [filterCategory, filterName, filterZone]);
+  }, [filterCategory, filterName]);
 
   // Componente para las píldoras de categorías
   const CategoryPills = () => (
-    <div className="flex gap-2 overflow-x-auto pb-2 md:hidden">
+    <div className="flex gap-2 overflow-x-auto pb-2 md:hidden mb-4">
       <motion.button
         whileTap={{ scale: 0.95 }}
         onClick={() => setFilterCategory('')}
-        className={`flex-shrink-0 px-4 py-2 rounded-full text-sm ${filterCategory === ''
-          ? 'bg-[#34baab] text-white'
-          : 'bg-white text-[#484450] border border-[#459a96]'
-          }`}
+        className={`flex-shrink-0 px-4 py-2 rounded-full text-sm ${
+          filterCategory === '' 
+            ? 'bg-[#34baab] text-white'
+            : 'bg-white text-[#484450] border border-[#459a96]'
+        }`}
       >
         Todos
       </motion.button>
@@ -52,10 +52,11 @@ const Catalogo = () => {
           key={cat}
           whileTap={{ scale: 0.95 }}
           onClick={() => setFilterCategory(cat)}
-          className={`flex-shrink-0 px-4 py-2 rounded-full text-sm ${filterCategory === cat
-            ? 'bg-[#34baab] text-white'
-            : 'bg-white text-[#484450] border border-[#459a96]'
-            }`}
+          className={`flex-shrink-0 px-4 py-2 rounded-full text-sm ${
+            filterCategory === cat
+              ? 'bg-[#34baab] text-white'
+              : 'bg-white text-[#484450] border border-[#459a96]'
+          }`}
         >
           {cat}
         </motion.button>
@@ -77,15 +78,16 @@ const Catalogo = () => {
           <PromoButton />
         </div>
 
-        {/* Barra de búsqueda móvil siempre visible */}
+        {/* Barra de búsqueda móvil */}
         <div className="md:hidden mb-4">
           <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#34baab]" size={20} />
             <input
               type="text"
               value={filterName}
               onChange={(e) => setFilterName(e.target.value)}
               placeholder="Buscar tratamiento..."
-              className="w-full p-3 pr-12 border border-[#459a96] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#34baab] bg-white"
+              className="w-full pl-10 pr-12 py-3 border border-[#459a96] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#34baab] bg-white"
             />
             <button
               onClick={() => setShowFilters(true)}
@@ -99,7 +101,7 @@ const Catalogo = () => {
         {/* Píldoras de categorías móvil */}
         <CategoryPills />
 
-        {/* Panel de filtros móvil */}
+        {/* Panel de filtros móvil simplificado */}
         <AnimatePresence>
           {showFilters && (
             <motion.div
@@ -115,65 +117,43 @@ const Catalogo = () => {
                 exit={{ y: '100%' }}
               >
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold text-[#484450]">Filtros</h3>
+                  <h3 className="text-lg font-semibold text-[#484450]">Categorías</h3>
                   <button onClick={() => setShowFilters(false)}>
                     <X className="text-[#484450]" size={24} />
                   </button>
                 </div>
 
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-[#484450] font-semibold mb-2">
-                      <Filter size={18} className="inline mr-2" />
-                      Categoría
-                    </label>
-                    <select
-                      value={filterCategory}
-                      onChange={(e) => setFilterCategory(e.target.value)}
-                      className="w-full p-3 border border-[#459a96] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#34baab] bg-white"
+                <div className="space-y-2">
+                  <button
+                    onClick={() => {
+                      setFilterCategory('');
+                      setShowFilters(false);
+                    }}
+                    className={`w-full p-3 rounded-lg text-left ${
+                      filterCategory === ''
+                        ? 'bg-[#34baab] text-white'
+                        : 'bg-white text-[#484450] border border-[#459a96]'
+                    }`}
+                  >
+                    Todas las categorías
+                  </button>
+                  {uniqueCategories.map(cat => (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        setFilterCategory(cat);
+                        setShowFilters(false);
+                      }}
+                      className={`w-full p-3 rounded-lg text-left ${
+                        filterCategory === cat
+                          ? 'bg-[#34baab] text-white'
+                          : 'bg-white text-[#484450] border border-[#459a96]'
+                      }`}
                     >
-                      <option value="">Todas las categorías</option>
-                      {uniqueCategories.map(cat => (
-                        <option key={cat} value={cat}>{cat}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-[#484450] font-semibold mb-2">
-                      <Search size={18} className="inline mr-2" />
-                      Nombre
-                    </label>
-                    <input
-                      type="text"
-                      value={filterName}
-                      onChange={(e) => setFilterName(e.target.value)}
-                      placeholder="Buscar por nombre..."
-                      className="w-full p-3 border border-[#459a96] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#34baab]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[#484450] font-semibold mb-2">
-                      <MapPin size={18} className="inline mr-2" />
-                      Zona
-                    </label>
-                    <input
-                      type="text"
-                      value={filterZone}
-                      onChange={(e) => setFilterZone(e.target.value)}
-                      placeholder="Buscar por zona..."
-                      className="w-full p-3 border border-[#459a96] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#34baab]"
-                    />
-                  </div>
+                      {cat}
+                    </button>
+                  ))}
                 </div>
-
-                <button
-                  onClick={() => setShowFilters(false)}
-                  className="w-full mt-6 bg-[#34baab] text-white py-3 rounded-lg hover:bg-[#459a96]"
-                >
-                  Aplicar Filtros
-                </button>
               </motion.div>
             </motion.div>
           )}
@@ -215,24 +195,10 @@ const Catalogo = () => {
               className="w-full p-3 border border-[#459a96] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#34baab]"
             />
           </div>
-
-          <div className="flex-1">
-            <label className="block text-[#484450] font-semibold mb-2">
-              <MapPin size={18} className="inline mr-2" />
-              Zona
-            </label>
-            <input
-              type="text"
-              value={filterZone}
-              onChange={(e) => setFilterZone(e.target.value)}
-              placeholder="Buscar por zona..."
-              className="w-full p-3 border border-[#459a96] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#34baab]"
-            />
-          </div>
         </motion.div>
 
-        {/* Grid de cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {/* Grid de cards - Ahora 2 columnas en móvil */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
           {filteredTreatments.map((treatment, index) => (
             <motion.div
               key={index}
@@ -242,11 +208,11 @@ const Catalogo = () => {
               whileHover={{ y: -5 }}
               className="bg-white rounded-xl shadow-md overflow-hidden relative"
             >
-              <div className="p-6">
-                <h2 className="text-xl font-bold mb-3 text-[#484450] capitalize">
+              <div className="p-4 md:p-6">
+                <h2 className="text-base md:text-xl font-bold mb-2 md:mb-3 text-[#484450] capitalize">
                   {treatment.nombre}
                 </h2>
-                <p className="text-[#466067] text-sm mb-4 line-clamp-3">
+                <p className="text-[#466067] text-xs md:text-sm mb-3 md:mb-4 line-clamp-3">
                   {treatment.info_general.descripcionCorta}
                 </p>
                 <Link
@@ -259,7 +225,7 @@ const Catalogo = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="w-full bg-[#34baab] text-white py-2 px-4 rounded-lg 
-                             hover:bg-[#459a96] transition-colors duration-300"
+                             hover:bg-[#459a96] transition-colors duration-300 text-sm md:text-base"
                   >
                     Ver más
                   </motion.button>

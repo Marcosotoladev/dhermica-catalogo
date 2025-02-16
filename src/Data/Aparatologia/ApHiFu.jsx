@@ -1,7 +1,7 @@
 const HiFu = {
     id: "ApHiFu",
     categoria: "Aparatologia",
-    nombre: "Hi Fu",
+    nombre: "HiFu",
     metodo: "hifu 22d",
     zonas: [
         {

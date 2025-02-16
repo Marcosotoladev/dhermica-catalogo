@@ -1,7 +1,7 @@
 const FaHiFu = {
     id: "FaHiFu", // ID único para el tratamiento
     categoria: "Faciales",
-    nombre: "Hi Fu",
+    nombre: "HiFu",
     metodo: "HIFU 22D",
     zonas: [
         {

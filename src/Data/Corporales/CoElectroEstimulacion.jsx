@@ -1,7 +1,7 @@
 const Electroestimulacion = {
     id: "CoElectroestimulacion",
     categoria: "Corporales",
-    nombre: "Electroestimulacion",
+    nombre: "Electro estimulación",
     metodo: "electroestimulacion",
     zonas: [
         {

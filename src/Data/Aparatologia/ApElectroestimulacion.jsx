@@ -1,7 +1,7 @@
 const Electroestimulacion = {
     id: "ApElectroestimulacion",
     categoria: "Aparatologia",
-    nombre: "Electroestimulacion",
+    nombre: "Electro Estimulación",
     metodo: "electroestimulacion",
     zonas: [
         {
