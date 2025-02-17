@@ -99,7 +99,7 @@ const Catalogo = () => {
         </div>
 
         {/* Píldoras de categorías móvil */}
-        <CategoryPills />
+        <CategoryPills  />
 
         {/* Panel de filtros móvil simplificado */}
         <AnimatePresence>
