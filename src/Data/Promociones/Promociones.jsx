@@ -46,7 +46,7 @@ const Promociones = {
             metodo: "Infrared",
             zonas: ["4 zonas a elección"],
             duracion: "30 min",
-            precioFemenino: 4000,
+            precioFemenino: 9000,
             precioMasculino: 20000,
             observaciones_precio: "Precio masculino no incluye cavado y tiro",
             frecuencia: "30 dias",
@@ -56,20 +56,7 @@ const Promociones = {
                 observaciones: "Promoción válida para 4 zonas a elección"
             }
         },
-        {
-            nombre: "masajes reductores",
-            metodo: "manual",
-            zonas: ["4 zonas a elección"],
-            duracion: "60 min",
-            precioFemenino: 40000,
-            precioMasculino: null,
-            frecuencia: null,
-            info_especifica: {
-                descripcion: "Masajes reductores y modeladores manuales",
-                cuidados_especiales: "Mantener buena hidratación",
-                observaciones: "Promoción especial para 4 zonas"
-            }
-        }
+
     ],
     info_general: {
         descripcionCorta: "Promociones especiales en tratamientos seleccionados",

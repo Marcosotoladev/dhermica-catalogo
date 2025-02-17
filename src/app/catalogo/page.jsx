@@ -70,11 +70,11 @@ const Catalogo = () => {
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-2xl md:text-4xl font-bold mb-8 text-[#484450] text-center"
+          className="text-xl md:text-4xl font-bold mb-8 text-[#484450] text-center"
         >
           Catálogo de Tratamientos
         </motion.h1>
-        <div className='flex justify-center mb-4'>
+        <div className='flex justify-center mb-4 w-full'>
           <PromoButton />
         </div>
 
@@ -91,7 +91,7 @@ const Catalogo = () => {
             />
             <button
               onClick={() => setShowFilters(true)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-4"
             >
               <SlidersHorizontal className="text-[#34baab]" size={20} />
             </button>
