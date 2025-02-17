@@ -15,7 +15,7 @@ const PromoButton = () => {
 
         {/* Contenido del botón */}
         <Sparkles className="w-5 h-5 text-[#34baab] group-hover:text-white transition-colors" />
-        <span className="text-base sm:text-lg font-semibold">
+        <span className="text-base sm:text-lg font-semibold p-2">
           Ver Promociones
         </span>
       </button>

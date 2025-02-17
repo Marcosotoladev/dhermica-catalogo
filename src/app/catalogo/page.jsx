@@ -35,7 +35,7 @@ const Catalogo = () => {
 
   // Componente para las píldoras de categorías
   const CategoryPills = () => (
-    <div className="flex gap-2 overflow-x-auto pb-2 md:hidden mb-4">
+    <div className="flex gap-2 overflow-x-auto pb-2 md:hidden m-8">
       <motion.button
         whileTap={{ scale: 0.95 }}
         onClick={() => setFilterCategory('')}
@@ -70,7 +70,7 @@ const Catalogo = () => {
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-xl md:text-4xl font-bold mb-8 text-[#484450] text-center"
+          className="text-xl md:text-4xl font-bold mb-4 text-[#484450] text-center"
         >
           Catálogo de Tratamientos
         </motion.h1>
@@ -93,7 +93,7 @@ const Catalogo = () => {
               onClick={() => setShowFilters(true)}
               className="absolute right-2 top-1/2 -translate-y-1/2 p-4"
             >
-              <SlidersHorizontal className="text-[#34baab]" size={20} />
+              <SlidersHorizontal className="text-[#34baab] " size={20} />
             </button>
           </div>
         </div>
